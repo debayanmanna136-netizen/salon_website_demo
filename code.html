@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EST. SALON - Generations of Style</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#1b1c19",
+                        "outline-variant": "#c4c7c7",
+                        "on-surface-variant": "#444748",
+                        "on-secondary-fixed": "#311302",
+                        "secondary-fixed": "#ffdbca",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1b1c1c",
+                        "surface-dim": "#dbdad9",
+                        "on-tertiary-fixed": "#1b1c19",
+                        "primary": "#000000",
+                        "inverse-surface": "#303031",
+                        "secondary": "#80543b",
+                        "error-container": "#ffdad6",
+                        "outline": "#747878",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#e5e2e1",
+                        "tertiary": "#000000",
+                        "surface-container": "#efeded",
+                        "surface-tint": "#5f5e5e",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#c7c7c2",
+                        "surface-container-highest": "#e4e2e2",
+                        "secondary-fixed-dim": "#f4ba9c",
+                        "on-tertiary-container": "#848480",
+                        "primary-container": "#1c1b1b",
+                        "on-surface": "#1b1c1c",
+                        "tertiary-fixed": "#e3e3de",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#1c1b1b",
+                        "inverse-primary": "#c8c6c5",
+                        "inverse-on-surface": "#f2f0f0",
+                        "surface": "#fbf9f8",
+                        "on-secondary-fixed-variant": "#653d26",
+                        "on-primary-fixed-variant": "#474746",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#464744",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface-bright": "#fbf9f8",
+                        "background": "#fbf9f8",
+                        "surface-container-high": "#e9e8e7",
+                        "secondary-container": "#fdc2a3",
+                        "on-primary-container": "#858383",
+                        "surface-variant": "#e4e2e2",
+                        "surface-container-low": "#f5f3f3",
+                        "on-secondary-container": "#794d36"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "stack-xl": "80px",
+                        "stack-sm": "8px",
+                        "stack-md": "24px",
+                        "stack-lg": "48px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "body-lg": ["Work Sans"],
+                        "label-caps": ["Work Sans"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "display-xl": ["Playfair Display"],
+                        "body-md": ["Work Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["40px", { "lineHeight": "48px", "fontWeight": "600" }],
+                        "display-xl": ["120px", { "lineHeight": "110px", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .horizontal-scroll {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .horizontal-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .scroll-item {
+            scroll-snap-align: start;
+            flex: 0 0 auto;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased selection:bg-secondary selection:text-on-secondary">
+<!-- TopNavBar -->
+<nav class="w-full top-0 sticky z-50 bg-surface border-b border-primary">
+<div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md text-primary tracking-tighter uppercase">EST. SALON</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-label-caps text-label-caps text-on-surface hover:text-secondary transition-colors duration-300 uppercase" href="#services">Services</a>
+<a class="font-label-caps text-label-caps text-on-surface hover:text-secondary transition-colors duration-300 uppercase" href="#gallery">Gallery</a>
+<a class="font-label-caps text-label-caps text-on-surface hover:text-secondary transition-colors duration-300 uppercase" href="#about">About</a>
+<a class="font-label-caps text-label-caps text-on-surface hover:text-secondary transition-colors duration-300 uppercase" href="#contact">Contact</a>
+<a class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 uppercase hover:bg-secondary transition-colors duration-300" href="#book">Book Now</a>
+</div>
+<!-- Mobile Menu Toggle -->
+<button aria-label="Toggle Menu" class="md:hidden text-primary">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative pt-stack-lg pb-stack-xl md:py-stack-xl px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center flex flex-col items-center justify-center min-h-[716px]">
+<h1 class="font-display-xl text-display-xl text-primary leading-none uppercase z-10 mix-blend-difference hidden md:block">THE SALON</h1>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase z-10 md:hidden">THE SALON</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter w-full mt-stack-md md:-mt-[150px] relative z-0">
+<div class="aspect-[4/5] bg-surface-container-high relative overflow-hidden">
+<img alt="Black and white portrait of a young boy with a modern fade haircut, facing slightly left. Studio lighting, high contrast editorial style." class="object-cover w-full h-full grayscale" data-alt="Black and white portrait of a young boy with a modern fade haircut, facing slightly left. The lighting is soft yet high-contrast studio style, creating a stark, high-fashion editorial aesthetic against a clean off-white background. The mood is serious and timeless." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSAy0gfZZEhJF7-uExCYgEx06CIIJuz9LLwKlG8sHxPs9lNftBBYE-CrjCTWIfMJq81Lu8p5qcOc5XCWhxh-wElUrOW21irbxspeMaETWeeVxbK8f7J8ha0ZSsdb_BG83dFt55m2IrIu-SRcD3iC99yWIhXAMrA50i8pZ747DRluwjOefa86Zc1jHgesh0KE_VsGb7y01gGpNEACWUivdyt8OFeYXh2S_JB_qYZpC9QOqH7oArkbCl9sVQLz4E1aPkrWLUKesbOkk"/>
+<div class="absolute bottom-4 left-4 font-headline-lg text-headline-lg text-surface mix-blend-difference uppercase hidden md:block">JUNIOR</div>
+</div>
+<div class="aspect-[4/5] bg-surface-container-high relative overflow-hidden">
+<img alt="Black and white portrait of a young man with a classic swept-back hairstyle, looking slightly right. Studio lighting, high contrast editorial style." class="object-cover w-full h-full grayscale" data-alt="Black and white portrait of a young man with a classic swept-back hairstyle, looking slightly right. The lighting is soft yet high-contrast studio style, creating a stark, high-fashion editorial aesthetic against a clean off-white background. The mood is authoritative and stylish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5icQGALUFqTd2k9kk3NNJNlHLWu1xjUHmyKk3QRx1gbTszuVctclKnxlXA_AKde2juyALiAOxlAPdtmDebduKlewxfzWb4aEayZtDeSX8wVqmFQgTDRy1xs-mPptCIdOz6c6qMUnooK4JaasmKUDsNkcp3Ap4ySlPOerhbiAf2Xp-kfow4v0xf1Z8Ni7u-L9mfB4ATEjYHUiYuzSA4ytHyQDV6ohx68Wp8iwiq6ymNbVewRWXT2ZoLEQpYzMGTD0YQaY0Lrpq86c"/>
+<div class="absolute bottom-4 right-4 font-headline-lg text-headline-lg text-surface mix-blend-difference uppercase hidden md:block">SENIOR</div>
+</div>
+</div>
+<p class="font-body-lg text-body-lg text-primary mt-stack-md uppercase tracking-widest max-w-2xl mx-auto z-10 bg-surface/80 p-4">Generations of Style</p>
+</header>
+<!-- About Section -->
+<section class="py-stack-xl px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-primary" id="about">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-12">
+<h2 class="font-display-xl text-display-xl text-primary leading-none uppercase mb-stack-md hidden md:block">ABOUT</h2>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase mb-stack-md md:hidden">ABOUT</h2>
+</div>
+<div class="md:col-span-8 bg-surface-container-high aspect-video relative overflow-hidden border border-primary">
+<img alt="Wide shot of a modern hair salon interior in black and white. Features circular mirrors, geometric shelving, and black styling chairs on a marble floor." class="object-cover w-full h-full grayscale" data-alt="Wide shot of a minimalist, modern hair salon interior rendered in stark black and white. The space features large circular mirrors, geometric metal shelving, and sleek black styling chairs set on a polished marble floor. The lighting is bright and evenly distributed, emphasizing the clean lines and premium, high-fashion aesthetic of the environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbP7jTBxed9GB8Q_AIEqv3sJIZBRVyJS_Tl4fFaJCw6lRDzC5yFZ5omHg8veIVvFRze7KYDXMYoJK6myniyceLQ3bkuafWboqCLMhb7s0MPsRjN4wmxhfY9MCQlV5vHEiAZisBeERYzoVyiEBMS1qa4RJhrPGWrszPNAR2aucgpOhRJUPw6QGMJv7uebL33KCUurAYd8yJzPQYDOPKGqY3pfoxR-CxeuxkfvG2By3CKXZRmj4WjbzVAwvRn-yXoOxpcRhTm8W_dRo"/>
+</div>
+<div class="md:col-span-4 flex items-end">
+<p class="font-body-lg text-body-lg text-on-surface uppercase tracking-wide leading-relaxed border-l-2 border-secondary pl-6 py-4 bg-surface-container-lowest/50">
+                    Our philosophy revolves around celebrating your natural beauty and enhancing it through the latest trends and timeless techniques.
+                </p>
+</div>
+</div>
+</section>
+<!-- Dark Mode Services Section (Wildcard) -->
+<section class="bg-primary text-surface py-stack-xl px-margin-mobile md:px-margin-desktop w-full" id="services">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-lg text-headline-lg md:font-display-xl md:text-display-xl text-surface uppercase mb-stack-lg border-b border-surface/30 pb-4">Services</h2>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Navigation / Tabs for Services -->
+<div class="md:col-span-3 flex md:flex-col gap-4 overflow-x-auto pb-4 md:pb-0 mb-8 md:mb-0 border-b md:border-b-0 md:border-r border-surface/30">
+<button class="font-label-caps text-label-caps text-secondary whitespace-nowrap text-left hover:text-surface transition-colors py-2 px-4 border border-secondary md:mr-8 bg-secondary/10">CUT &amp; STYLING</button>
+<button class="font-label-caps text-label-caps text-surface/50 whitespace-nowrap text-left hover:text-surface transition-colors py-2 px-4 md:mr-8">COLOR &amp; HIGHLIGHTS</button>
+<button class="font-label-caps text-label-caps text-surface/50 whitespace-nowrap text-left hover:text-surface transition-colors py-2 px-4 md:mr-8">TREATMENTS &amp; CARE</button>
+<button class="font-label-caps text-label-caps text-surface/50 whitespace-nowrap text-left hover:text-surface transition-colors py-2 px-4 md:mr-8">TEXTURE &amp; PERMS</button>
+</div>
+<!-- Service Content -->
+<div class="md:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="space-y-6">
+<div class="border-b border-surface/20 pb-4 flex justify-between items-baseline group hover:border-secondary transition-colors cursor-pointer">
+<div>
+<h3 class="font-headline-md text-headline-md text-surface group-hover:text-secondary transition-colors">Precision Cut</h3>
+<p class="font-body-md text-body-md text-surface/70 mt-2">Tailored to your facial structure and lifestyle.</p>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">FROM $85</span>
+</div>
+<div class="border-b border-surface/20 pb-4 flex justify-between items-baseline group hover:border-secondary transition-colors cursor-pointer">
+<div>
+<h3 class="font-headline-md text-headline-md text-surface group-hover:text-secondary transition-colors">Blowout &amp; Style</h3>
+<p class="font-body-md text-body-md text-surface/70 mt-2">Signature wash, massage, and voluminous finish.</p>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">FROM $55</span>
+</div>
+<div class="border-b border-surface/20 pb-4 flex justify-between items-baseline group hover:border-secondary transition-colors cursor-pointer">
+<div>
+<h3 class="font-headline-md text-headline-md text-surface group-hover:text-secondary transition-colors">Restyle / Transformation</h3>
+<p class="font-body-md text-body-md text-surface/70 mt-2">A completely new look with in-depth consultation.</p>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">FROM $120</span>
+</div>
+</div>
+<div class="aspect-[3/4] relative overflow-hidden border border-surface/30 hidden md:block">
+<img alt="Close up of a stylist applying hair dye with a brush to a client's long hair in black and white." class="object-cover w-full h-full grayscale opacity-80" data-alt="A close-up, black and white photograph showing a professional hairstylist applying treatment to a client's wet, long hair using a tint brush. The lighting focuses on the texture of the hair and the stylist's hands, creating a dramatic, high-contrast, editorial mood suitable for a premium dark-mode salon website." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh32iCeOVNjX5Bq-rcM8xtuL-QFxMB5w4MVOQKxlLDXPKOwI_zjsJ1yVQUDMyb8zRhqpAXuOSLfknGIRp24M3eKyq8tA5bfy73cLIM3anVc8av4gF2CehDhdWTFhHTpHzO37-zj84NM97zRxQgfb0z2i0i57vgKczbLAeWUME5tZGg7nV4EXqSFruMjMZSybSS77X3b61GscjoqL-PSCoIHAGLkn5pnc09ydF29lZfsvug0NmfgGfGS-hgBQwpESFjHS6lLs__hH4"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Massive Typography Divider -->
+<div class="w-full overflow-hidden bg-secondary text-surface py-stack-md whitespace-nowrap border-y border-primary">
+<div class="animate-[marquee_20s_linear_infinite] inline-block font-display-xl text-display-xl uppercase tracking-tighter">
+            GENERATIONS OF STYLE • GENERATIONS OF STYLE • GENERATIONS OF STYLE • 
+        </div>
+</div>
+<style>
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+<!-- Horizontal Scroll Gallery (Wildcard) -->
+<section class="py-stack-xl px-margin-mobile md:px-margin-desktop max-w-[100vw] overflow-hidden bg-surface" id="gallery">
+<div class="max-w-container-max mx-auto mb-stack-md flex justify-between items-end">
+<h2 class="font-headline-lg text-headline-lg md:font-display-xl md:text-display-xl text-primary uppercase">Gallery</h2>
+<div class="hidden md:flex gap-4">
+<button aria-label="Previous" class="w-12 h-12 border border-primary flex items-center justify-center hover:bg-primary hover:text-surface transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button aria-label="Next" class="w-12 h-12 border border-primary flex items-center justify-center hover:bg-primary hover:text-surface transition-colors">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="horizontal-scroll gap-gutter pb-8 px-margin-mobile md:px-margin-desktop cursor-grab active:cursor-grabbing">
+<!-- Gallery Item 1 -->
+<div class="scroll-item w-[80vw] md:w-[400px]">
+<div class="aspect-[3/4] bg-surface-container-high overflow-hidden border border-primary mb-4 group relative">
+<img alt="Black and white portrait of a woman with long wavy hair." class="object-cover w-full h-full grayscale group-hover:scale-105 transition-transform duration-700" data-alt="A striking black and white studio portrait of a woman with long, voluminous wavy hair. The lighting is high-key and soft, emphasizing the texture of the hair and creating a high-fashion, minimalist aesthetic against a pure white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwWmbQZr7hNMu6KeEBMHEA_JX3uGBzWCFnUG28hvh4Exwf4Elk068eYFQq0z2ooYDIgXjcjnrGq0UdI-ALmkKT4JC0VtLoG1i9klNqHgSRbqRtbhRK4AQHsgWQtG7yRurUiUzuAA4g4W3M1Gy4GKRTDyUCWooLP_IKkUEJcVHYkPtqyVibIFJXT4_veNAKKTEnI5gb4kDGTeNWOsrw5c9KsyTBivTISSTbfyeRNiUDUDQLV267vAfIp1r1cyX9Dm7BdL0jfXW6-wY"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+</div>
+<div class="flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps text-primary uppercase">Classic Wave</h3>
+<span class="font-label-caps text-label-caps text-secondary">STYLIST: ANNA</span>
+</div>
+</div>
+<!-- Gallery Item 2 -->
+<div class="scroll-item w-[80vw] md:w-[400px]">
+<div class="aspect-[3/4] bg-surface-container-high overflow-hidden border border-primary mb-4 group relative">
+<img alt="Black and white portrait of a man with a sharp fade and styled top." class="object-cover w-full h-full grayscale group-hover:scale-105 transition-transform duration-700" data-alt="A sharp, black and white portrait of a man featuring a pristine skin fade and a textured, styled top. The studio lighting casts deep, dramatic shadows, highlighting the clean lines of the haircut in a sophisticated, editorial manner." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv8GD3zWzRP4VK-RX02sKrM19DNrPg1BdscRzinW8Q03El7-HMz90VgWc05TZWBoSF35rQqDK0k4HJhEvz_1O7HoryrlhcEcEZuev7_ZpM00-nMi4BvsSltY0Iq9bWnfhVS6kAre4_WARSlxj96r-J6c2pm6xRXLwdEbEMcuT_AkMJfGBJFCmKLDQ-700xWLYjaPGdFDcmHaP_HndzHA33sPH7XqY8t8BorAGA57IQlz_62VlvEVxlXR3f4XzyKmjkXwthGDkWrsY"/>
+</div>
+<div class="flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps text-primary uppercase">Modern Fade</h3>
+<span class="font-label-caps text-label-caps text-secondary">STYLIST: MARCUS</span>
+</div>
+</div>
+<!-- Gallery Item 3 -->
+<div class="scroll-item w-[80vw] md:w-[400px]">
+<div class="aspect-[3/4] bg-surface-container-high overflow-hidden border border-primary mb-4 group relative">
+<img alt="Black and white portrait of a young boy smiling with a short textured cut." class="object-cover w-full h-full grayscale group-hover:scale-105 transition-transform duration-700" data-alt="A candid-style, black and white studio portrait of a young boy with a short, textured haircut. The lighting is bright and cheerful, yet maintains a high-end, editorial look consistent with a premium brand's visual identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDRJugfeeGxsxZ0ZhzFFCOrgqwP7WbrV7S6hkvmDvFcnhTc_Xi_BWYFbY03zNVm21r6cGOpg3T13nl1pv_oM13bkwyhy-VxdpSULi0QjqbLgbTG51PXfJj-RFg-CiJBhbO3uG56AQkt1DLVmWBfvsOom46BODwMcnqWsOGzhOgbWgp6iVwH8iRuhUTkPBo3flqocTsly78B_DVHipSFhq-kr1479JX6M2OojPoffj46selNRKHlIYrUTeeafG9WnfNtpcnD471B_0"/>
+</div>
+<div class="flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps text-primary uppercase">Kid's Texture</h3>
+<span class="font-label-caps text-label-caps text-secondary">STYLIST: SARAH</span>
+</div>
+</div>
+<!-- Gallery Item 4 -->
+<div class="scroll-item w-[80vw] md:w-[400px]">
+<div class="aspect-[3/4] bg-surface-container-high overflow-hidden border border-primary mb-4 group relative">
+<img alt="Black and white portrait of a woman with a sharp bob cut." class="object-cover w-full h-full grayscale group-hover:scale-105 transition-transform duration-700" data-alt="A dramatic black and white portrait of a woman showcasing a sharp, precise bob haircut. The high-contrast studio lighting highlights the geometric perfection of the cut, presenting a stark, minimalist, and highly stylish visual." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2nHyJTfy9vX4a_YXn4YDuCcnJMRQ4Ev4hTPgDU8_eUPSTFc6ZJAmZkUXNcB6S7Sly0D0isyKiNL0OOArndmYGWI3sJ4yqTKAsqIOVQZUEQasJyPau6LUJjgPsH_GixI1NtMuXYawX2Am_mKdbxG3Hb1pZ2Cbhwf_YMeF2TK25KaTMVEOVZFIm2YijcgFbbyV355M-SlX1rQWKzig4LmB6mguCtfbKdVrt8IU2DoqlGOeaCG0nTH7qD41gDbwgZA_Av8SmH6uYCfc"/>
+</div>
+<div class="flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps text-primary uppercase">Precision Bob</h3>
+<span class="font-label-caps text-label-caps text-secondary">STYLIST: ELENA</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Booking & Contact Section -->
+<section class="py-stack-xl px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-primary" id="contact">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+<!-- Reviews / Text -->
+<div>
+<h2 class="font-headline-md text-headline-md text-primary uppercase mb-stack-md">Client Voices</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter mb-stack-lg">
+<div class="border border-primary p-6 bg-surface-container-lowest relative">
+<span class="material-symbols-outlined absolute top-4 right-4 text-secondary opacity-50 text-4xl">format_quote</span>
+<p class="font-body-md text-body-md text-on-surface mb-4 relative z-10 italic">"The attention to detail here is unmatched. It feels less like a salon appointment and more like a tailored styling session."</p>
+<p class="font-label-caps text-label-caps text-primary uppercase">— Sarah Jenkins</p>
+</div>
+<div class="border border-primary p-6 bg-surface-container-lowest relative">
+<span class="material-symbols-outlined absolute top-4 right-4 text-secondary opacity-50 text-4xl">format_quote</span>
+<p class="font-body-md text-body-md text-on-surface mb-4 relative z-10 italic">"I've been bringing my son here for years. They manage to make him look sharp while keeping the experience completely stress-free."</p>
+<p class="font-label-caps text-label-caps text-primary uppercase">— Michael T.</p>
+</div>
+</div>
+<div class="border-t border-primary pt-stack-md">
+<h3 class="font-label-caps text-label-caps text-primary uppercase mb-4">Location &amp; Hours</h3>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="font-body-md text-body-md text-on-surface">123 Heritage Lane<br/>Fashion District<br/>NY 10012</p>
+<a class="font-body-md text-body-md text-secondary hover:underline block mt-2" href="mailto:hello@estsalon.com">hello@estsalon.com</a>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface">Tue - Fri: 10am - 8pm<br/>Sat: 9am - 6pm<br/>Sun - Mon: Closed</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Booking Form -->
+<div class="bg-surface-container-high p-8 border border-primary" id="book">
+<h2 class="font-headline-md text-headline-md text-primary uppercase mb-stack-md">Book an Appointment</h2>
+<form class="space-y-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div>
+<label class="font-label-caps text-label-caps text-primary uppercase block mb-2">Name</label>
+<input class="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 px-0 py-2 font-body-md text-primary placeholder-surface-tint" placeholder="Your full name" type="text"/>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-primary uppercase block mb-2">Phone</label>
+<input class="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 px-0 py-2 font-body-md text-primary placeholder-surface-tint" placeholder="Your phone number" type="tel"/>
+</div>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-primary uppercase block mb-2">Service Needed</label>
+<select class="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 px-0 py-2 font-body-md text-primary">
+<option>Select a service...</option>
+<option>Precision Cut</option>
+<option>Color &amp; Highlights</option>
+<option>Styling &amp; Blowout</option>
+<option>Consultation</option>
+</select>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-primary uppercase block mb-2">Preferred Date</label>
+<input class="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 px-0 py-2 font-body-md text-primary" type="date"/>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps py-4 mt-4 hover:bg-secondary transition-colors duration-300 uppercase tracking-widest" type="submit">
+                        Request Appointment
+                    </button>
+</form>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-stack-lg mt-stack-xl bg-surface border-t border-primary px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-4 mb-8 md:mb-0">
+<div class="font-headline-md text-headline-md text-primary mb-4 uppercase tracking-tighter">EST. SALON</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">Elevating family haircare to high-fashion standards. Generations of style, crafted with precision.</p>
+</div>
+<div class="md:col-span-8 flex flex-wrap gap-x-12 gap-y-8 justify-between md:justify-end">
+<div class="flex flex-col gap-3">
+<span class="font-label-caps text-label-caps text-secondary mb-2 uppercase">Menu</span>
+<a class="font-body-md text-body-md text-on-surface dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors" href="#services">Services</a>
+<a class="font-body-md text-body-md text-on-surface dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors" href="#gallery">Gallery</a>
+<a class="font-body-md text-body-md text-on-surface dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors" href="#about">About</a>
+<a class="font-body-md text-body-md text-on-surface dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors" href="#contact">Contact</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-caps text-label-caps text-secondary mb-2 uppercase">Legal</span>
+<a class="font-body-md text-body-md text-on-surface dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-caps text-label-caps text-secondary mb-2 uppercase">Social</span>
+<div class="flex gap-4">
+<a aria-label="Instagram" class="text-primary hover:text-secondary transition-colors" href="#">
+<svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" fill-rule="evenodd"></path></svg>
+</a>
+<a aria-label="Facebook" class="text-primary hover:text-secondary transition-colors" href="#">
+<svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
+</a>
+</div>
+</div>
+</div>
+<div class="md:col-span-12 mt-stack-md pt-6 border-t border-surface-container-highest">
+<p class="font-label-caps text-label-caps text-on-surface-variant text-center md:text-left">
+                    © 2024 EST. SALON. GENERATIONS OF STYLE.
+                </p>
+</div>
+</div>
+</footer>
+<script>
+        // Simple horizontal scroll behavior for gallery
+        const scrollContainer = document.querySelector('.horizontal-scroll');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        if(scrollContainer) {
+            scrollContainer.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - scrollContainer.offsetLeft;
+                scrollLeft = scrollContainer.scrollLeft;
+            });
+            scrollContainer.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+            scrollContainer.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+            scrollContainer.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scrollContainer.offsetLeft;
+                const walk = (x - startX) * 2; // Scroll-fast
+                scrollContainer.scrollLeft = scrollLeft - walk;
+            });
+        }
+    </script>
+</body></html>

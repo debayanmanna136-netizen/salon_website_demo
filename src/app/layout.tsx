@@ -3,28 +3,35 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "The Shine Hair & Beauty | Best Salon in Konnagar",
-  description: "Premium unisex salon in Konnagar offering haircuts, hair spa, smoothening, facials, global coloring, beard styling, and beauty services. Book appointments via WhatsApp.",
+  description: "Premium unisex salon in Konnagar offering haircuts, hair spa, smoothening, beard styling, facials, waxing, beauty treatments, and global hair coloring. Book appointments instantly via WhatsApp.",
   keywords: [
     "The Shine Hair & Beauty",
     "salon in Konnagar",
     "best salon in Konnagar",
-    "unisex salon Hooghly",
     "hair spa Konnagar",
-    "beauty parlour near me"
+    "beauty parlour Hooghly",
+    "unisex salon near me",
+    "hair salon in Hooghly",
+    "smoothening salon Konnagar"
   ],
+  authors: [{ name: "The Shine Hair & Beauty" }],
+  robots: {
+    index: true,
+    follow: true,
+  },
   alternates: {
-    canonical: "https://theshinehairandbeauty.com",
+    canonical: "https://estsalondemo.netlify.app/",
   },
   openGraph: {
     title: "The Shine Hair & Beauty | Best Salon in Konnagar",
-    description: "Premium unisex salon in Konnagar offering haircuts, hair spa, smoothening, facials, global coloring, beard styling, and beauty services.",
-    url: "https://theshinehairandbeauty.com",
+    description: "Premium unisex salon in Konnagar offering haircuts, hair spa, smoothening, beard styling, facials, waxing, beauty treatments, and global hair coloring. Book appointments instantly via WhatsApp.",
+    url: "https://estsalondemo.netlify.app/",
     siteName: "The Shine Hair & Beauty",
     locale: "en_IN",
     type: "website",
     images: [
       {
-        url: "https://theshinehairandbeauty.com/salon_interior.jpeg",
+        url: "https://estsalondemo.netlify.app/salon_interior.jpeg",
         width: 1200,
         height: 630,
         alt: "The Shine Hair & Beauty Salon Interior",
@@ -34,8 +41,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "The Shine Hair & Beauty | Best Salon in Konnagar",
-    description: "Premium unisex salon in Konnagar offering haircuts, hair spa, smoothening, facials, global coloring, beard styling, and beauty services.",
-    images: ["https://theshinehairandbeauty.com/salon_interior.jpeg"],
+    description: "Premium unisex salon in Konnagar offering haircuts, hair spa, smoothening, beard styling, facials, waxing, beauty treatments, and global hair coloring. Book appointments instantly via WhatsApp.",
+    images: ["https://estsalondemo.netlify.app/salon_interior.jpeg"],
   },
 };
 
@@ -44,10 +51,12 @@ const jsonLd = {
   "@type": "BeautySalon",
   "name": "The Shine Hair & Beauty",
   "image": [
-    "https://theshinehairandbeauty.com/salon_interior.jpeg"
+    "https://estsalondemo.netlify.app/salon_interior.jpeg",
+    "https://estsalondemo.netlify.app/classic_wave.jpeg",
+    "https://estsalondemo.netlify.app/precision_bob.jpeg"
   ],
-  "@id": "https://theshinehairandbeauty.com/#salon",
-  "url": "https://theshinehairandbeauty.com",
+  "@id": "https://estsalondemo.netlify.app/#salon",
+  "url": "https://estsalondemo.netlify.app/",
   "telephone": "+918910276364",
   "priceRange": "₹₹",
   "address": {
@@ -97,6 +106,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased scroll-smooth">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+        <meta name="theme-color" content="#0f0f11" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link crossOrigin="anonymous" href="https://fonts.gstatic.com" rel="preconnect" />
         <link

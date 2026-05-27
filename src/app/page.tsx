@@ -150,6 +150,8 @@ export default function Home() {
       <LiveBackground />
       {/* TopNavBar */}
       <motion.nav
+        role="navigation"
+        aria-label="Main Navigation"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -226,18 +228,9 @@ export default function Home() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, margin: "-10%" }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="font-display-xl text-[clamp(4rem,10vw,120px)] text-primary leading-none uppercase z-10 mix-blend-difference hidden md:block break-words"
+          className="font-headline-lg-mobile text-[clamp(3rem,8vw,60px)] md:font-display-xl md:text-[clamp(4rem,10vw,120px)] text-primary leading-none uppercase z-10 md:mix-blend-difference break-words"
         >
-          THE SALON
-        </motion.h1>
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: false, margin: "-10%" }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="font-headline-lg-mobile text-[clamp(3rem,8vw,60px)] text-primary leading-none uppercase z-10 md:hidden break-words"
-        >
-          THE SALON
+          THE SHINE
         </motion.h1>
 
         <motion.div
@@ -286,7 +279,7 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="font-body-lg text-[clamp(1rem,2vw,18px)] text-primary mt-stack-md uppercase tracking-widest max-w-2xl mx-auto z-10 bg-surface/80 backdrop-blur-sm p-4 rounded shadow-sm break-words"
         >
-          Generations of Style
+          The Shine Hair & Beauty — Premium Unisex Salon in Konnagar
         </motion.p>
       </header>
 
@@ -322,7 +315,7 @@ export default function Home() {
               Sujit Ojha
             </h3>
             <p className="font-body-lg text-body-lg text-on-surface uppercase tracking-wide leading-relaxed border-l-2 border-secondary pl-6 py-4 bg-surface-container-lowest/80 backdrop-blur-sm shadow-sm break-words">
-              With years of expertise, Sujit blends modern trends with classic techniques to create the perfect look tailored just for you. Your style, his passion.
+              With years of expertise, Sujit blends modern trends with classic techniques at the best unisex salon in Hooghly. From hair spa in Konnagar to professional hair treatment in Hooghly, experience personalized styling tailored just for you.
             </p>
           </div>
         </div>
@@ -508,21 +501,28 @@ export default function Home() {
                   <motion.div
                     variants={slideUpVariants}
                     key={i}
+                    itemScope
+                    itemType="https://schema.org/Review"
                     className="border border-primary p-6 bg-surface-container-lowest/80 backdrop-blur-sm relative hover:-translate-y-2 transition-transform duration-300 shadow-sm flex flex-col justify-between"
                   >
                     <span className="material-symbols-outlined absolute top-4 right-4 text-secondary opacity-50 text-4xl">format_quote</span>
+                    <div itemProp="itemReviewed" itemScope itemType="https://schema.org/BeautySalon">
+                      <meta itemProp="name" content="The Shine Hair & Beauty" />
+                    </div>
                     <div>
                       {testimonial.rating && (
-                        <div className="flex gap-1 mb-3 text-secondary text-lg">
+                        <div itemProp="reviewRating" itemScope itemType="https://schema.org/Rating" className="flex gap-1 mb-3 text-secondary text-lg">
+                          <meta itemProp="ratingValue" content={testimonial.rating} />
+                          <meta itemProp="bestRating" content="5" />
                           {Array.from({ length: 5 }).map((_, idx) => (
                             <span key={idx}>{idx < parseInt(testimonial.rating as string) ? '★' : '☆'}</span>
                           ))}
                         </div>
                       )}
-                      <p className="font-body-md text-[clamp(0.875rem,1.5vw,16px)] text-on-surface mb-4 relative z-10 italic break-words">"{testimonial.quote}"</p>
+                      <p itemProp="reviewBody" className="font-body-md text-[clamp(0.875rem,1.5vw,16px)] text-on-surface mb-4 relative z-10 italic break-words">"{testimonial.quote}"</p>
                     </div>
                     <div className="flex flex-col mt-4">
-                      <p className="font-label-caps text-label-caps text-primary uppercase break-words">— {testimonial.author}</p>
+                      <p itemProp="author" itemScope itemType="https://schema.org/Person" className="font-label-caps text-label-caps text-primary uppercase break-words">— <span itemProp="name">{testimonial.author}</span></p>
                       {testimonial.timestamp && (
                         <span className="text-xs text-on-surface-variant mt-1 opacity-70 font-body-md">{testimonial.timestamp}</span>
                       )}
@@ -636,6 +636,40 @@ export default function Home() {
               </form>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Map Section */}
+      <section id="location" aria-labelledby="location-heading" className="py-stack-xl px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-primary/20 w-full relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+          <div className="md:col-span-4 flex flex-col justify-center mb-8 md:mb-0">
+            <h2 id="location-heading" className="font-headline-md text-headline-md text-primary uppercase mb-4 break-words">
+              Find Us in Konnagar
+            </h2>
+            <p className="font-body-md text-on-surface leading-relaxed mb-6 break-words">
+              Conveniently located beauty salon near Konnagar station, Hooghly. Visit us for premium haircuts, beard styling and grooming, hair treatments, and professional salon care.
+            </p>
+            <motion.a
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              href="https://maps.google.com/?q=88/2,+Lal+Bahadur+Sastri+Rd,+Rammohan+Place,+Konnagar,+Hooghly,+West+Bengal+712235"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="self-start bg-secondary text-surface font-label-caps text-label-caps px-6 py-3 uppercase hover:bg-primary hover:text-on-primary transition-colors duration-300 tracking-wider shadow-md"
+            >
+              Get Directions
+            </motion.a>
+          </div>
+          <div className="md:col-span-8 aspect-video w-full bg-surface-container-high border border-primary relative overflow-hidden group shadow-lg">
+            <iframe
+              title="The Shine Hair & Beauty Location Map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.1235650130953!2d88.34994277598858!2d22.70014167586522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f89b7fa5efd69d%3A0x6a05e2bfdf1fb66f!2s88%2F2%2C%20Lal%20Bahadur%20Shastri%20Rd%2C%20Rammohan%20Place%2C%20Konnagar%2C%20West%20Bengal%20712235!5e0!3m2!1sen!2sin!4v1716834000000!5m2!1sen!2sin"
+              className="w-full h-full border-0 filter grayscale invert contrast-[0.9] opacity-80 group-hover:opacity-100 group-hover:filter-none transition-all duration-700 ease-out"
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
         </div>
       </section>
 

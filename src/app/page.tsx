@@ -1,12 +1,98 @@
 "use client";
 
-import { motion, useScroll, useTransform, Variants } from "framer-motion";
-import { useState, useRef } from "react";
+import { motion, useScroll, useTransform, Variants, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import LiveBackground from "@/components/LiveBackground";
+
+const servicesData = {
+  "LADIES SERVICES": [
+    { title: "Shampoo + Hair Cutting + Blow Dry", price: "Starting from ₹200" },
+    { title: "Hair Spa", price: "Starting from ₹500" },
+    { title: "Threading", price: "Starting from ₹30" },
+    { title: "Global Colour", price: "Starting from ₹1200" },
+    { title: "Highlight", price: "Starting from ₹200 per stick" },
+    { title: "Straightening / Smoothening", price: "Starting from ₹3000" },
+    { title: "Hair Treatment", price: "Starting from ₹3000" },
+    { title: "Dandruff Treatment", price: "Starting from ₹800" },
+    { title: "Ozone + Hairfall Treatment", price: "Starting from ₹500" }
+  ],
+  "GENTS SERVICES": [
+    { title: "Hair Cut", price: "Starting from ₹80" },
+    { title: "Beard", price: "Starting from ₹40" },
+    { title: "Shaving", price: "Starting from ₹50" },
+    { title: "Spa", price: "Starting from ₹200" },
+    { title: "Straightening", price: "Starting from ₹800" },
+    { title: "Global Colour", price: "Starting from ₹300" },
+    { title: "Highlight", price: "Starting from ₹600" },
+    { title: "Perming", price: "Starting from ₹1000" }
+  ],
+  "BEAUTY SERVICES": [
+    { title: "Clean Up", price: "Starting from ₹100" },
+    { title: "Pedicure", price: "Starting from ₹300" },
+    { title: "Manicure", price: "Starting from ₹250" },
+    { title: "D-Tan", price: "Starting from ₹300" },
+    { title: "Waxing", price: "Starting from ₹300" },
+    { title: "Facial", price: "Starting from ₹500" }
+  ]
+};
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const galleryRef = useRef<HTMLDivElement>(null);
+
+  const [activeTab, setActiveTab] = useState<keyof typeof servicesData>("LADIES SERVICES");
+
+  const [bookName, setBookName] = useState("");
+  const [bookPhone, setBookPhone] = useState("");
+  const [bookService, setBookService] = useState("");
+  const [bookDate, setBookDate] = useState("");
+
+  const defaultReviews = [
+    { quote: "The attention to detail here is unmatched. It feels less like a salon appointment and more like a tailored styling session.", author: "Sarah Jenkins", rating: "5", timestamp: "Recently" },
+    { quote: "I've been bringing my son here for years. They manage to make him look sharp while keeping the experience completely stress-free.", author: "Michael T.", rating: "5", timestamp: "Recently" }
+  ];
+  const [reviews, setReviews] = useState<any[]>(defaultReviews);
+  const [reviewName, setReviewName] = useState("");
+  const [reviewText, setReviewText] = useState("");
+  const [reviewRating, setReviewRating] = useState("5");
+
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [lastSubmittedReview, setLastSubmittedReview] = useState<{ quote: string, rating: string } | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("salon_reviews");
+    if (saved) {
+      try {
+        setReviews(JSON.parse(saved));
+      } catch (e) {}
+    }
+  }, []);
+
+  const handleReviewSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reviewName || !reviewText) return;
+    const newReview = { 
+      quote: reviewText, 
+      author: reviewName, 
+      rating: reviewRating, 
+      timestamp: "Just now" 
+    };
+    const updated = [newReview, ...reviews];
+    setReviews(updated);
+    localStorage.setItem("salon_reviews", JSON.stringify(updated));
+    setLastSubmittedReview({ quote: reviewText, rating: reviewRating });
+    setShowReviewModal(true);
+    setReviewName("");
+    setReviewText("");
+    setReviewRating("5");
+  };
+
+  const handleBookingSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = `Hello, I would like to book an appointment at The Shine Hair & Beauty.\n\nName: ${bookName}\nPhone: ${bookPhone}\nService: ${bookService}\nPreferred Time: ${bookDate}\n\nPlease confirm availability.`;
+    const url = `https://wa.me/918910276364?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
+  };
 
   // Smooth scroll animations
   const { scrollYProgress } = useScroll();
@@ -67,7 +153,7 @@ export default function Home() {
     <main className="flex flex-col min-h-screen relative overflow-x-hidden">
       <LiveBackground />
       {/* TopNavBar */}
-      <motion.nav 
+      <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -75,10 +161,10 @@ export default function Home() {
       >
         <div className="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
           <div className="font-headline-md text-headline-md text-primary tracking-tighter uppercase whitespace-nowrap break-keep">
-            EST. SALON
+            THE SHINE
           </div>
           <div className="hidden md:flex gap-8 items-center">
-            {["Services", "Gallery", "About", "Contact"].map((item) => (
+            {["Services", "Gallery", "Stylist", "Contact"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -102,14 +188,44 @@ export default function Home() {
             className="md:hidden text-primary"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <span className="material-symbols-outlined text-3xl">menu</span>
+            <span className="material-symbols-outlined text-3xl">{isMenuOpen ? "close" : "menu"}</span>
           </button>
         </div>
       </motion.nav>
 
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 top-20 z-40 bg-surface/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8 md:hidden"
+          >
+            {["Services", "Gallery", "Stylist", "Contact"].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                onClick={() => setIsMenuOpen(false)}
+                className="font-headline-md text-3xl text-primary hover:text-secondary transition-colors uppercase"
+              >
+                {item}
+              </a>
+            ))}
+            <a
+              href="#book"
+              onClick={() => setIsMenuOpen(false)}
+              className="bg-primary text-on-primary font-label-caps text-label-caps px-8 py-4 uppercase hover:bg-secondary transition-colors duration-300 mt-4"
+            >
+              Book Now
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Hero Section */}
       <header className="relative pt-stack-lg pb-stack-xl md:py-stack-xl px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center flex flex-col items-center justify-center min-h-[716px] w-full">
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, margin: "-10%" }}
@@ -118,7 +234,7 @@ export default function Home() {
         >
           THE SALON
         </motion.h1>
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, margin: "-10%" }}
@@ -128,14 +244,14 @@ export default function Home() {
           THE SALON
         </motion.h1>
 
-        <motion.div 
+        <motion.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, margin: "-10%" }}
           className="grid grid-cols-1 md:grid-cols-2 gap-gutter w-full mt-stack-md md:-mt-[150px] relative z-0"
         >
-          <motion.div 
+          <motion.div
             variants={slideUpVariants}
             className="aspect-[4/5] bg-surface-container-high relative overflow-hidden group shadow-xl"
           >
@@ -150,8 +266,8 @@ export default function Home() {
               FOR MEN
             </div>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             variants={slideUpVariants}
             className="aspect-[4/5] bg-surface-container-high relative overflow-hidden group shadow-xl"
           >
@@ -167,7 +283,7 @@ export default function Home() {
             </div>
           </motion.div>
         </motion.div>
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-10%" }}
@@ -178,36 +294,39 @@ export default function Home() {
         </motion.p>
       </header>
 
-      {/* About Section */}
-      <motion.section 
+      {/* Meet the Stylist Section */}
+      <motion.section
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, margin: "-10%" }}
         variants={slideUpVariants}
-        id="about" 
+        id="stylist"
         className="py-stack-xl px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-primary/20 w-full"
       >
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
           <div className="md:col-span-12">
             <h2 className="font-display-xl text-[clamp(3rem,8vw,120px)] text-primary leading-none uppercase mb-stack-md hidden md:block break-words">
-              ABOUT
+              MEET THE STYLIST
             </h2>
             <h2 className="font-headline-lg-mobile text-[clamp(2.5rem,6vw,40px)] text-primary leading-none uppercase mb-stack-md md:hidden break-words">
-              ABOUT
+              MEET THE STYLIST
             </h2>
           </div>
-          <div className="md:col-span-8 bg-surface-container-high aspect-video relative overflow-hidden border border-primary group shadow-lg">
+          <div className="md:col-span-8 bg-surface-container-high aspect-square md:aspect-video relative overflow-hidden border border-primary group shadow-lg flex items-center justify-center">
             <motion.img
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
-              alt="Wide shot of a modern hair salon interior."
-              src="https://images.pexels.com/photos/3993444/pexels-photo-3993444.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              className="object-cover w-full h-full"
+              alt="Sujit Ojha - Stylist"
+              src="/sujit.jpg"
+              className="object-contain w-full h-full"
             />
           </div>
-          <div className="md:col-span-4 flex items-end">
+          <div className="md:col-span-4 flex flex-col justify-end">
+            <h3 className="font-headline-md text-headline-md text-primary uppercase mb-4 break-words">
+              Sujit Ojha
+            </h3>
             <p className="font-body-lg text-body-lg text-on-surface uppercase tracking-wide leading-relaxed border-l-2 border-secondary pl-6 py-4 bg-surface-container-lowest/80 backdrop-blur-sm shadow-sm break-words">
-              Our philosophy revolves around celebrating your natural beauty and enhancing it through the latest trends and timeless techniques.
+              With years of expertise, Sujit blends modern trends with classic techniques to create the perfect look tailored just for you. Your style, his passion.
             </p>
           </div>
         </div>
@@ -216,7 +335,7 @@ export default function Home() {
       {/* Services Section */}
       <section id="services" className="bg-primary text-surface py-stack-xl px-margin-mobile md:px-margin-desktop w-full overflow-hidden relative z-10">
         <div className="max-w-container-max mx-auto">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, margin: "-10%" }}
@@ -227,50 +346,45 @@ export default function Home() {
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
             {/* Tabs */}
-            <motion.div 
+            <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: false, margin: "-10%" }}
               variants={staggerContainer}
               className="md:col-span-3 flex md:flex-col gap-4 overflow-x-auto pb-4 md:pb-0 mb-8 md:mb-0 border-b md:border-b-0 md:border-r border-surface/30"
             >
-              <button className="font-label-caps text-label-caps text-secondary whitespace-nowrap text-left hover:text-surface transition-colors py-2 px-4 border border-secondary md:mr-8 bg-secondary/10">
-                CUT & STYLING
-              </button>
-              {["COLOR & HIGHLIGHTS", "TREATMENTS & CARE", "TEXTURE & PERMS"].map((tab) => (
-                <button key={tab} className="font-label-caps text-label-caps text-surface/50 whitespace-nowrap text-left hover:text-surface transition-colors py-2 px-4 md:mr-8 relative group">
+              {(Object.keys(servicesData) as (keyof typeof servicesData)[]).map((tab) => (
+                <button 
+                  key={tab} 
+                  onClick={() => setActiveTab(tab)}
+                  className={`font-label-caps text-label-caps whitespace-nowrap text-left transition-colors py-2 px-4 md:mr-8 relative group ${activeTab === tab ? "text-secondary border border-secondary bg-secondary/10" : "text-surface/50 hover:text-surface"}`}
+                >
                   {tab}
-                  <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-surface transition-all duration-300 group-hover:w-full"></span>
+                  {activeTab !== tab && <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-surface transition-all duration-300 group-hover:w-full"></span>}
                 </button>
               ))}
             </motion.div>
-            
+
             {/* Service Content */}
             <div className="md:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-gutter">
-              <motion.div 
+              <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: false, margin: "-10%" }}
                 variants={staggerContainer}
                 className="space-y-6"
+                key={activeTab}
               >
-                {[
-                  { title: "Precision Cut", desc: "Tailored to your facial structure and lifestyle.", price: "FROM $85" },
-                  { title: "Blowout & Style", desc: "Signature wash, massage, and voluminous finish.", price: "FROM $55" },
-                  { title: "Restyle / Transformation", desc: "A completely new look with in-depth consultation.", price: "FROM $120" }
-                ].map((service, idx) => (
-                  <motion.div 
+                {servicesData[activeTab].map((service, idx) => (
+                  <motion.div
                     variants={slideUpVariants}
-                    key={idx} 
+                    key={idx}
                     className="border-b border-surface/20 pb-4 flex justify-between items-baseline group hover:border-secondary transition-colors cursor-pointer"
                   >
                     <div>
                       <h3 className="font-headline-md text-headline-md text-surface group-hover:text-secondary transition-colors break-words">
                         {service.title}
                       </h3>
-                      <p className="font-body-md text-body-md text-surface/70 mt-2 break-words">
-                        {service.desc}
-                      </p>
                     </div>
                     <span className="font-label-caps text-label-caps text-secondary shrink-0 ml-4 whitespace-nowrap">
                       {service.price}
@@ -278,8 +392,8 @@ export default function Home() {
                   </motion.div>
                 ))}
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: false, margin: "-10%" }}
@@ -302,14 +416,14 @@ export default function Home() {
       {/* Massive Typography Divider */}
       <div className="w-full overflow-hidden bg-secondary text-surface py-stack-md whitespace-nowrap border-y border-primary relative z-10">
         <div className="animate-[marquee_20s_linear_infinite] inline-block font-display-xl text-[clamp(3rem,8vw,120px)] uppercase tracking-tighter">
-          GENERATIONS OF STYLE • GENERATIONS OF STYLE • GENERATIONS OF STYLE • 
+          GENERATIONS OF STYLE • GENERATIONS OF STYLE • GENERATIONS OF STYLE •
         </div>
       </div>
 
       {/* Gallery Section */}
       <section id="gallery" className="py-stack-xl px-margin-mobile md:px-margin-desktop max-w-[100vw] overflow-hidden bg-transparent w-full">
         <div className="max-w-container-max mx-auto mb-stack-md flex justify-between items-end">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, margin: "-10%" }}
@@ -319,15 +433,15 @@ export default function Home() {
             Gallery
           </motion.h2>
           <div className="hidden md:flex gap-4">
-            <button 
-              aria-label="Previous" 
+            <button
+              aria-label="Previous"
               onClick={() => scrollGallery('left')}
               className="w-12 h-12 border border-primary bg-surface/50 backdrop-blur-sm flex items-center justify-center hover:bg-primary hover:text-surface transition-colors"
             >
               <span className="material-symbols-outlined">arrow_back</span>
             </button>
-            <button 
-              aria-label="Next" 
+            <button
+              aria-label="Next"
               onClick={() => scrollGallery('right')}
               className="w-12 h-12 border border-primary bg-surface/50 backdrop-blur-sm flex items-center justify-center hover:bg-primary hover:text-surface transition-colors"
             >
@@ -335,8 +449,8 @@ export default function Home() {
             </button>
           </div>
         </div>
-        
-        <div 
+
+        <div
           ref={galleryRef}
           className="horizontal-scroll gap-gutter pb-8 px-margin-mobile md:px-margin-desktop cursor-grab active:cursor-grabbing w-full"
           onMouseDown={handleMouseDown}
@@ -345,12 +459,16 @@ export default function Home() {
           onMouseMove={handleMouseMove}
         >
           {[
-            { img: "https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200&auto=format&fit=crop", title: "Classic Wave", stylist: "ANNA" },
-            { img: "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?q=80&w=1200&auto=format&fit=crop", title: "Modern Fade", stylist: "MARCUS" },
-            { img: "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=1200&auto=format&fit=crop", title: "Short Texture", stylist: "SARAH" },
-            { img: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=1200&auto=format&fit=crop", title: "Precision Bob", stylist: "ELENA" }
+            { img: "/classic_wave.jpeg", title: "Classic Fade" },
+            { img: "/salon_interior.jpeg", title: "Salon Interior" },
+            { img: "/short_texture.jpeg", title: "De-tan + Facial" },
+            { img: "/precision_bob.jpeg", title: "Precision Bob" },
+            { img: "/burst_fade.jpeg", title: "Burst Fade" },
+            { img: "/ladies_cut.jpeg", title: "Ladies Cut" },
+            { img: "/perming.jpeg", title: "Perming" },
+            { img: "/taper_fade.jpeg", title: "Taper Fade" }
           ].map((item, i) => (
-            <motion.div 
+            <motion.div
               key={i}
               initial={{ opacity: 0.5, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -368,7 +486,6 @@ export default function Home() {
               </div>
               <div className="flex justify-between items-center">
                 <h3 className="font-label-caps text-label-caps text-primary uppercase break-words pr-2">{item.title}</h3>
-                <span className="font-label-caps text-label-caps text-secondary whitespace-nowrap">STYLIST: {item.stylist}</span>
               </div>
             </motion.div>
           ))}
@@ -386,77 +503,130 @@ export default function Home() {
           >
             <h2 className="font-headline-md text-headline-md text-primary uppercase mb-stack-md break-words">Client Voices</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-gutter mb-stack-lg">
-              {[
-                { quote: "The attention to detail here is unmatched. It feels less like a salon appointment and more like a tailored styling session.", author: "Sarah Jenkins" },
-                { quote: "I've been bringing my son here for years. They manage to make him look sharp while keeping the experience completely stress-free.", author: "Michael T." }
-              ].map((testimonial, i) => (
-                <motion.div 
+              {reviews.map((testimonial, i) => (
+                <motion.div
                   variants={slideUpVariants}
-                  key={i} 
-                  className="border border-primary p-6 bg-surface-container-lowest/80 backdrop-blur-sm relative hover:-translate-y-2 transition-transform duration-300 shadow-sm"
+                  key={i}
+                  className="border border-primary p-6 bg-surface-container-lowest/80 backdrop-blur-sm relative hover:-translate-y-2 transition-transform duration-300 shadow-sm flex flex-col justify-between"
                 >
                   <span className="material-symbols-outlined absolute top-4 right-4 text-secondary opacity-50 text-4xl">format_quote</span>
-                  <p className="font-body-md text-[clamp(0.875rem,1.5vw,16px)] text-on-surface mb-4 relative z-10 italic break-words">"{testimonial.quote}"</p>
-                  <p className="font-label-caps text-label-caps text-primary uppercase break-words">— {testimonial.author}</p>
+                  <div>
+                    {testimonial.rating && (
+                      <div className="flex gap-1 mb-3 text-secondary text-lg">
+                        {Array.from({ length: 5 }).map((_, idx) => (
+                          <span key={idx}>{idx < parseInt(testimonial.rating as string) ? '★' : '☆'}</span>
+                        ))}
+                      </div>
+                    )}
+                    <p className="font-body-md text-[clamp(0.875rem,1.5vw,16px)] text-on-surface mb-4 relative z-10 italic break-words">"{testimonial.quote}"</p>
+                  </div>
+                  <div className="flex flex-col mt-4">
+                    <p className="font-label-caps text-label-caps text-primary uppercase break-words">— {testimonial.author}</p>
+                    {testimonial.timestamp && (
+                      <span className="text-xs text-on-surface-variant mt-1 opacity-70 font-body-md">{testimonial.timestamp}</span>
+                    )}
+                  </div>
                 </motion.div>
               ))}
             </div>
-            
+
+            <motion.div variants={slideUpVariants} className="border-t border-primary pt-stack-md pb-stack-md mb-stack-md">
+              <h3 className="font-headline-md text-headline-md text-primary uppercase mb-4 break-words">Write a Review</h3>
+              <form onSubmit={handleReviewSubmit} className="space-y-4">
+                <input 
+                  type="text" 
+                  placeholder="Your Name" 
+                  value={reviewName}
+                  onChange={(e) => setReviewName(e.target.value)}
+                  className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary placeholder-surface-tint transition-colors" 
+                  required
+                />
+                <textarea 
+                  placeholder="Your Review" 
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
+                  className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary placeholder-surface-tint transition-colors resize-none" 
+                  rows={3}
+                  required
+                ></textarea>
+                <div className="flex justify-between items-center">
+                  <select 
+                    value={reviewRating} 
+                    onChange={(e) => setReviewRating(e.target.value)}
+                    className="bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary transition-colors"
+                  >
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                  </select>
+                  <motion.button 
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit" 
+                    className="bg-secondary/10 text-secondary border border-secondary font-label-caps text-label-caps px-6 py-2 hover:bg-secondary hover:text-surface transition-colors duration-300 uppercase tracking-widest break-words"
+                  >
+                    Submit
+                  </motion.button>
+                </div>
+              </form>
+            </motion.div>
+
             <motion.div variants={slideUpVariants} className="border-t border-primary pt-stack-md">
               <h3 className="font-label-caps text-label-caps text-primary uppercase mb-4 break-words">Location & Hours</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="font-body-md text-body-md text-on-surface break-words">123 Heritage Lane<br/>Fashion District<br/>NY 10012</p>
-                  <a href="mailto:hello@estsalon.com" className="font-body-md text-body-md text-secondary hover:underline block mt-2 break-all">hello@estsalon.com</a>
+                  <p className="font-body-md text-body-md text-on-surface break-words">88/2, Lal Bahadur Sastri Rd<br />Rammohan Place, Konnagar<br />Hooghly, West Bengal 712235</p>
+                  <a href="https://wa.me/918910276364" target="_blank" className="font-body-md text-body-md text-secondary hover:underline block mt-2 break-all">+91 8910276364</a>
                 </div>
                 <div>
-                  <p className="font-body-md text-body-md text-on-surface break-words">Tue - Fri: 10am - 8pm<br/>Sat: 9am - 6pm<br/>Sun - Mon: Closed</p>
+                  <p className="font-body-md text-body-md text-on-surface break-words">Tue - Fri: 10am - 8pm<br />Sat: 9am - 6pm<br />Sun - Mon: Closed</p>
                 </div>
               </div>
             </motion.div>
           </motion.div>
 
           {/* Booking Form */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, margin: "-10%" }}
             transition={{ duration: 0.8 }}
-            id="book" 
+            id="book"
             className="bg-surface-container-high/90 backdrop-blur-md p-8 border border-primary relative overflow-hidden group shadow-xl"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-surface-container-highest to-surface-container opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
             <div className="relative z-10">
               <h2 className="font-headline-md text-[clamp(1.5rem,4vw,32px)] text-primary uppercase mb-stack-md break-words">Book an Appointment</h2>
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-6" onSubmit={handleBookingSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label className="font-label-caps text-label-caps text-primary uppercase block mb-2 break-words">Name</label>
-                    <input type="text" placeholder="Your full name" className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary placeholder-surface-tint transition-colors" />
+                    <input type="text" required value={bookName} onChange={e => setBookName(e.target.value)} placeholder="Your full name" className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary placeholder-surface-tint transition-colors" />
                   </div>
                   <div>
                     <label className="font-label-caps text-label-caps text-primary uppercase block mb-2 break-words">Phone</label>
-                    <input type="tel" placeholder="Your phone number" className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary placeholder-surface-tint transition-colors" />
+                    <input type="tel" required value={bookPhone} onChange={e => setBookPhone(e.target.value)} placeholder="Your phone number" className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary placeholder-surface-tint transition-colors" />
                   </div>
                 </div>
                 <div>
                   <label className="font-label-caps text-label-caps text-primary uppercase block mb-2 break-words">Service Needed</label>
-                  <select className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary transition-colors">
-                    <option>Select a service...</option>
-                    <option>Precision Cut</option>
-                    <option>Color & Highlights</option>
-                    <option>Styling & Blowout</option>
-                    <option>Consultation</option>
+                  <select required value={bookService} onChange={e => setBookService(e.target.value)} className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary transition-colors">
+                    <option value="">Select a service...</option>
+                    {Object.values(servicesData).flat().map((svc, i) => (
+                      <option key={i} value={svc.title}>{svc.title}</option>
+                    ))}
                   </select>
                 </div>
                 <div>
-                  <label className="font-label-caps text-label-caps text-primary uppercase block mb-2 break-words">Preferred Date</label>
-                  <input type="date" className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary transition-colors" />
+                  <label className="font-label-caps text-label-caps text-primary uppercase block mb-2 break-words">Preferred Date & Time</label>
+                  <input type="datetime-local" required value={bookDate} onChange={e => setBookDate(e.target.value)} className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary transition-colors" />
                 </div>
-                <motion.button 
+                <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  type="submit" 
+                  type="submit"
                   className="w-full bg-primary text-on-primary font-label-caps text-label-caps py-4 mt-4 hover:bg-secondary transition-colors duration-300 uppercase tracking-widest break-words"
                 >
                   Request Appointment
@@ -472,7 +642,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
           <div className="md:col-span-4 mb-8 md:mb-0">
             <div className="font-headline-md text-headline-md text-primary mb-4 uppercase tracking-tighter break-words">
-              EST. SALON
+              THE SHINE
             </div>
             <p className="font-body-md text-body-md text-on-surface-variant max-w-xs break-words">
               Elevating family haircare to high-fashion standards. Generations of style, crafted with precision.
@@ -481,7 +651,7 @@ export default function Home() {
           <div className="md:col-span-8 flex flex-wrap gap-x-12 gap-y-8 justify-between md:justify-end">
             <div className="flex flex-col gap-3">
               <span className="font-label-caps text-label-caps text-secondary mb-2 uppercase break-words">Menu</span>
-              {["Services", "Gallery", "About", "Contact"].map((item) => (
+              {["Services", "Gallery", "Stylist", "Contact"].map((item) => (
                 <a key={item} href={`#${item.toLowerCase()}`} className="font-body-md text-body-md text-on-surface hover:text-secondary transition-colors break-words">
                   {item}
                 </a>
@@ -505,14 +675,72 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
+
           <div className="md:col-span-12 mt-stack-md pt-6 border-t border-surface-container-highest">
             <p className="font-label-caps text-label-caps text-on-surface-variant text-center md:text-left break-words">
-              © 2024 EST. SALON. GENERATIONS OF STYLE.
+              © 2024 THE SHINE HAIR & BEAUTY. GENERATIONS OF STYLE.
             </p>
           </div>
         </div>
       </footer>
+
+      {/* Google Review Funnel Modal */}
+      <AnimatePresence>
+        {showReviewModal && lastSubmittedReview && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md px-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="bg-surface-container-high border border-primary p-8 max-w-lg w-full relative overflow-hidden shadow-2xl"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-surface-container-highest to-surface-container opacity-50 pointer-events-none"></div>
+              <div className="relative z-10 flex flex-col items-center text-center">
+                <span className="material-symbols-outlined text-secondary text-5xl mb-4">favorite</span>
+                <h2 className="font-headline-md text-2xl text-primary uppercase mb-2">Thank You For Your Feedback ❤️</h2>
+                <p className="font-body-md text-on-surface-variant mb-6">
+                  We’re so happy you enjoyed your experience at The Shine Hair & Beauty. Would you also like to support us with a Google Review?
+                </p>
+                
+                {/* Styled Preview Card */}
+                <div className="bg-surface-container-lowest/80 border border-primary/30 p-4 w-full mb-6 relative">
+                  <div className="flex justify-center gap-1 mb-2 text-secondary text-xl">
+                    {Array.from({ length: 5 }).map((_, idx) => (
+                      <span key={idx}>{idx < parseInt(lastSubmittedReview.rating) ? '★' : '☆'}</span>
+                    ))}
+                  </div>
+                  <p className="font-body-md text-on-surface italic break-words">"{lastSubmittedReview.quote}"</p>
+                  <p className="text-xs text-primary/70 mt-3 font-label-caps uppercase">Your review is ready to post.</p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 w-full">
+                  <a
+                    href="https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setShowReviewModal(false)}
+                    className="flex-1 bg-primary text-on-primary font-label-caps text-label-caps py-3 px-4 hover:bg-secondary transition-colors duration-300 uppercase tracking-widest"
+                  >
+                    Post on Google
+                  </a>
+                  <button
+                    onClick={() => setShowReviewModal(false)}
+                    className="flex-1 bg-transparent border border-primary text-primary font-label-caps text-label-caps py-3 px-4 hover:bg-primary/10 transition-colors duration-300 uppercase tracking-widest"
+                  >
+                    Maybe Later
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

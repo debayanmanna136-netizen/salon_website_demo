@@ -47,11 +47,7 @@ export default function Home() {
   const [bookService, setBookService] = useState("");
   const [bookDate, setBookDate] = useState("");
 
-  const defaultReviews = [
-    { quote: "The attention to detail here is unmatched. It feels less like a salon appointment and more like a tailored styling session.", author: "Sarah Jenkins", rating: "5", timestamp: "Recently" },
-    { quote: "I've been bringing my son here for years. They manage to make him look sharp while keeping the experience completely stress-free.", author: "Michael T.", rating: "5", timestamp: "Recently" }
-  ];
-  const [reviews, setReviews] = useState<any[]>(defaultReviews);
+  const [reviews, setReviews] = useState<any[]>([]);
   const [reviewName, setReviewName] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState("5");
@@ -503,31 +499,37 @@ export default function Home() {
           >
             <h2 className="font-headline-md text-headline-md text-primary uppercase mb-stack-md break-words">Client Voices</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-gutter mb-stack-lg">
-              {reviews.map((testimonial, i) => (
-                <motion.div
-                  variants={slideUpVariants}
-                  key={i}
-                  className="border border-primary p-6 bg-surface-container-lowest/80 backdrop-blur-sm relative hover:-translate-y-2 transition-transform duration-300 shadow-sm flex flex-col justify-between"
-                >
-                  <span className="material-symbols-outlined absolute top-4 right-4 text-secondary opacity-50 text-4xl">format_quote</span>
-                  <div>
-                    {testimonial.rating && (
-                      <div className="flex gap-1 mb-3 text-secondary text-lg">
-                        {Array.from({ length: 5 }).map((_, idx) => (
-                          <span key={idx}>{idx < parseInt(testimonial.rating as string) ? '★' : '☆'}</span>
-                        ))}
-                      </div>
-                    )}
-                    <p className="font-body-md text-[clamp(0.875rem,1.5vw,16px)] text-on-surface mb-4 relative z-10 italic break-words">"{testimonial.quote}"</p>
-                  </div>
-                  <div className="flex flex-col mt-4">
-                    <p className="font-label-caps text-label-caps text-primary uppercase break-words">— {testimonial.author}</p>
-                    {testimonial.timestamp && (
-                      <span className="text-xs text-on-surface-variant mt-1 opacity-70 font-body-md">{testimonial.timestamp}</span>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+              {reviews.length === 0 ? (
+                <div className="col-span-2 border border-dashed border-primary/20 p-8 text-center bg-surface-container-lowest/40 backdrop-blur-sm">
+                  <p className="font-body-md text-on-surface opacity-60 italic">No client voices yet. Share your experience by submitting a review below!</p>
+                </div>
+              ) : (
+                reviews.map((testimonial, i) => (
+                  <motion.div
+                    variants={slideUpVariants}
+                    key={i}
+                    className="border border-primary p-6 bg-surface-container-lowest/80 backdrop-blur-sm relative hover:-translate-y-2 transition-transform duration-300 shadow-sm flex flex-col justify-between"
+                  >
+                    <span className="material-symbols-outlined absolute top-4 right-4 text-secondary opacity-50 text-4xl">format_quote</span>
+                    <div>
+                      {testimonial.rating && (
+                        <div className="flex gap-1 mb-3 text-secondary text-lg">
+                          {Array.from({ length: 5 }).map((_, idx) => (
+                            <span key={idx}>{idx < parseInt(testimonial.rating as string) ? '★' : '☆'}</span>
+                          ))}
+                        </div>
+                      )}
+                      <p className="font-body-md text-[clamp(0.875rem,1.5vw,16px)] text-on-surface mb-4 relative z-10 italic break-words">"{testimonial.quote}"</p>
+                    </div>
+                    <div className="flex flex-col mt-4">
+                      <p className="font-label-caps text-label-caps text-primary uppercase break-words">— {testimonial.author}</p>
+                      {testimonial.timestamp && (
+                        <span className="text-xs text-on-surface-variant mt-1 opacity-70 font-body-md">{testimonial.timestamp}</span>
+                      )}
+                    </div>
+                  </motion.div>
+                ))
+              )}
             </div>
 
             <motion.div variants={slideUpVariants} className="border-t border-primary pt-stack-md pb-stack-md mb-stack-md">

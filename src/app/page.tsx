@@ -2,7 +2,11 @@
 
 import { motion, useScroll, useTransform, Variants, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import LiveBackground from "@/components/LiveBackground";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+
+const LiveBackground = dynamic(() => import("@/components/LiveBackground"), { ssr: false });
+const MotionImage = motion.create(Image);
 
 const servicesData = {
   "LADIES SERVICES": [
@@ -244,12 +248,15 @@ export default function Home() {
             variants={slideUpVariants}
             className="aspect-[4/5] bg-surface-container-high relative overflow-hidden group shadow-xl"
           >
-            <motion.img
+            <MotionImage
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               alt="Portrait of a young man with a modern fade haircut."
               src="https://images.pexels.com/photos/1805600/pexels-photo-1805600.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              className="object-cover w-full h-full"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+              className="object-cover"
             />
             <div className="absolute bottom-4 left-4 font-headline-lg text-headline-lg text-surface mix-blend-difference uppercase break-words">
               FOR MEN
@@ -260,12 +267,15 @@ export default function Home() {
             variants={slideUpVariants}
             className="aspect-[4/5] bg-surface-container-high relative overflow-hidden group shadow-xl"
           >
-            <motion.img
+            <MotionImage
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               alt="Portrait of a young woman getting a haircut."
               src="https://images.pexels.com/photos/3993311/pexels-photo-3993311.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              className="object-cover w-full h-full"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+              className="object-cover"
             />
             <div className="absolute bottom-4 right-4 font-headline-lg text-headline-lg text-surface mix-blend-difference uppercase break-words">
               FOR WOMEN
@@ -302,12 +312,14 @@ export default function Home() {
             </h2>
           </div>
           <div className="md:col-span-8 bg-surface-container-high aspect-square md:aspect-video relative overflow-hidden border border-primary group shadow-lg flex items-center justify-center">
-            <motion.img
+            <MotionImage
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
               alt="Sujit Ojha - Stylist"
               src="/sujit.jpg"
-              className="object-contain w-full h-full"
+              fill
+              sizes="(max-width: 768px) 100vw, 66vw"
+              className="object-contain"
             />
           </div>
           <div className="md:col-span-4 flex flex-col justify-end">
@@ -389,12 +401,14 @@ export default function Home() {
                 transition={{ duration: 1 }}
                 className="aspect-[3/4] relative overflow-hidden border border-surface/30 hidden md:block group"
               >
-                <motion.img
+                <MotionImage
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   alt="Stylist working on a client."
                   src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?q=80&w=1200&auto=format&fit=crop"
-                  className="object-cover w-full h-full opacity-80"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover opacity-80"
                 />
               </motion.div>
             </div>
@@ -466,10 +480,12 @@ export default function Home() {
               className="scroll-item w-[80vw] md:w-[400px]"
             >
               <div className="aspect-[3/4] bg-surface-container-high overflow-hidden border border-primary mb-4 group relative shadow-lg">
-                <img
+                <Image
                   alt={item.title}
                   src={item.img}
-                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 768px) 80vw, 400px"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
@@ -757,7 +773,7 @@ export default function Home() {
 
                 <div className="flex flex-col sm:flex-row gap-4 w-full">
                   <a
-                    href="https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID"
+                    href="https://search.google.com/local/writereview?placeid=ChIJYR1tSACd-DkR8j1ITbiK8K8"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setShowReviewModal(false)}

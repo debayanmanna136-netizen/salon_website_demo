@@ -757,7 +757,7 @@ export default function Home() {
 
                 <div className="flex flex-col sm:flex-row gap-4 w-full">
                   <a
-                    href="https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID"
+                    href="https://search.google.com/local/writereview?placeid=ChIJYR1tSACd-DkR8j1ITbiK8K8"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setShowReviewModal(false)}

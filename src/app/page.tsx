@@ -656,10 +656,32 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="md:col-span-12 mt-stack-md pt-6 border-t border-surface-container-highest">
+          <div className="md:col-span-12 mt-stack-md pt-6 border-t border-surface-container-highest flex flex-col md:flex-row justify-between items-center gap-6 pb-4">
             <p className="font-label-caps text-label-caps text-on-surface-variant text-center md:text-left break-words">
               © 2024 THE SHINE HAIR & BEAUTY. GENERATIONS OF STYLE.
             </p>
+            
+            {/* Developer Branding */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "0px" }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="group relative flex items-center justify-center"
+            >
+              <a 
+                href="https://www.facebook.com/debayan.manna.2025" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="font-body-md text-[11px] text-on-surface-variant/80 hover:text-secondary transition-all duration-500 ease-out flex items-center gap-1 opacity-90 hover:opacity-100 hover:drop-shadow-[0_0_8px_rgba(128,84,59,0.4)] cursor-pointer"
+              >
+                Designed & Developed by <span className="font-extrabold tracking-wider text-primary hover:text-secondary transition-colors duration-300">@Debayan Manna</span>
+              </a>
+              {/* Subtle hover text tooltip */}
+              <span className="absolute -top-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out font-label-caps text-[9px] uppercase tracking-widest text-secondary bg-surface-container-highest/80 backdrop-blur-sm border border-secondary/20 px-3 py-1.5 shadow-sm whitespace-nowrap pointer-events-none">
+                Available for collaborations
+              </span>
+            </motion.div>
           </div>
         </div>
       </footer>

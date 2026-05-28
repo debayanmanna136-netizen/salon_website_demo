@@ -181,14 +181,7 @@ body {
   color: var(--color-on-secondary);
 }
 
-/* Elfsight Widget Overrides */
-[class*="elfsight-app"] [class*="WidgetToolbar__Container"] {
-  display: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  position: absolute !important;
-  z-index: -9999 !important;
-}
+
 
 /* Make widget background transparent to blend with our container */
 [class*="elfsight-app"] [class*="WidgetBackground__Container"],

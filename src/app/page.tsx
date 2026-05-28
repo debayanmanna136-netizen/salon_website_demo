@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useScroll, useTransform, Variants, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { motion, Variants, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
+import Script from "next/script";
 import LiveBackground from "@/components/LiveBackground";
 
 const servicesData = {
@@ -47,7 +48,6 @@ export default function Home() {
   const [bookService, setBookService] = useState("");
   const [bookDate, setBookDate] = useState("");
 
-  const [reviews, setReviews] = useState<any[]>([]);
   const [reviewName, setReviewName] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState("5");
@@ -55,27 +55,9 @@ export default function Home() {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [lastSubmittedReview, setLastSubmittedReview] = useState<{ quote: string, rating: string } | null>(null);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("salon_reviews");
-    if (saved) {
-      try {
-        setReviews(JSON.parse(saved));
-      } catch (e) {}
-    }
-  }, []);
-
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!reviewName || !reviewText) return;
-    const newReview = { 
-      quote: reviewText, 
-      author: reviewName, 
-      rating: reviewRating, 
-      timestamp: "Just now" 
-    };
-    const updated = [newReview, ...reviews];
-    setReviews(updated);
-    localStorage.setItem("salon_reviews", JSON.stringify(updated));
     setLastSubmittedReview({ quote: reviewText, rating: reviewRating });
     setShowReviewModal(true);
     setReviewName("");
@@ -90,9 +72,7 @@ export default function Home() {
     window.open(url, "_blank");
   };
 
-  // Smooth scroll animations
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
 
   const slideUpVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
@@ -490,46 +470,10 @@ export default function Home() {
             viewport={{ once: false, margin: "-10%" }}
             variants={staggerContainer}
           >
+            <Script src="https://elfsightcdn.com/platform.js" strategy="afterInteractive" />
             <h2 className="font-headline-md text-headline-md text-primary uppercase mb-stack-md break-words">Client Voices</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-gutter mb-stack-lg">
-              {reviews.length === 0 ? (
-                <div className="col-span-2 border border-dashed border-primary/20 p-8 text-center bg-surface-container-lowest/40 backdrop-blur-sm">
-                  <p className="font-body-md text-on-surface opacity-60 italic">No client voices yet. Share your experience by submitting a review below!</p>
-                </div>
-              ) : (
-                reviews.map((testimonial, i) => (
-                  <motion.div
-                    variants={slideUpVariants}
-                    key={i}
-                    itemScope
-                    itemType="https://schema.org/Review"
-                    className="border border-primary p-6 bg-surface-container-lowest/80 backdrop-blur-sm relative hover:-translate-y-2 transition-transform duration-300 shadow-sm flex flex-col justify-between"
-                  >
-                    <span className="material-symbols-outlined absolute top-4 right-4 text-secondary opacity-50 text-4xl">format_quote</span>
-                    <div itemProp="itemReviewed" itemScope itemType="https://schema.org/BeautySalon">
-                      <meta itemProp="name" content="The Shine Hair & Beauty" />
-                    </div>
-                    <div>
-                      {testimonial.rating && (
-                        <div itemProp="reviewRating" itemScope itemType="https://schema.org/Rating" className="flex gap-1 mb-3 text-secondary text-lg">
-                          <meta itemProp="ratingValue" content={testimonial.rating} />
-                          <meta itemProp="bestRating" content="5" />
-                          {Array.from({ length: 5 }).map((_, idx) => (
-                            <span key={idx}>{idx < parseInt(testimonial.rating as string) ? '★' : '☆'}</span>
-                          ))}
-                        </div>
-                      )}
-                      <p itemProp="reviewBody" className="font-body-md text-[clamp(0.875rem,1.5vw,16px)] text-on-surface mb-4 relative z-10 italic break-words">"{testimonial.quote}"</p>
-                    </div>
-                    <div className="flex flex-col mt-4">
-                      <p itemProp="author" itemScope itemType="https://schema.org/Person" className="font-label-caps text-label-caps text-primary uppercase break-words">— <span itemProp="name">{testimonial.author}</span></p>
-                      {testimonial.timestamp && (
-                        <span className="text-xs text-on-surface-variant mt-1 opacity-70 font-body-md">{testimonial.timestamp}</span>
-                      )}
-                    </div>
-                  </motion.div>
-                ))
-              )}
+            <div className="mb-stack-lg border border-primary p-6 bg-surface-container-lowest/80 backdrop-blur-sm shadow-sm overflow-hidden rounded-none">
+              <div className="elfsight-app-fb85e395-f7b3-4eab-af99-f3854df46767" data-elfsight-app-lazy></div>
             </div>
 
             <motion.div variants={slideUpVariants} className="border-t border-primary pt-stack-md pb-stack-md mb-stack-md">
@@ -751,7 +695,7 @@ export default function Home() {
                       <span key={idx}>{idx < parseInt(lastSubmittedReview.rating) ? '★' : '☆'}</span>
                     ))}
                   </div>
-                  <p className="font-body-md text-on-surface italic break-words">"{lastSubmittedReview.quote}"</p>
+                  <p className="font-body-md text-on-surface italic break-words">&ldquo;{lastSubmittedReview.quote}&rdquo;</p>
                   <p className="text-xs text-primary/70 mt-3 font-label-caps uppercase">Your review is ready to post.</p>
                 </div>
 

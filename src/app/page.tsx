@@ -373,7 +373,7 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   alt="Stylist working on a client."
-                  src="/salon_interior.jpeg"
+                  src="/services_unsplash.jpeg"
                   className="object-cover w-full h-full opacity-80"
                 />
               </motion.div>

@@ -295,7 +295,7 @@ export default function Home() {
               Sujit Ojha
             </h3>
             <p className="font-body-lg text-body-lg text-on-surface uppercase tracking-wide leading-relaxed border-l-2 border-secondary pl-6 py-4 bg-surface-container-lowest/80 backdrop-blur-sm shadow-sm break-words">
-              With years of expertise, Sujit blends modern trends with classic techniques at the best unisex salon in Hooghly. From hair spa in Konnagar to professional hair treatment in Hooghly, experience personalized styling tailored just for you.
+              With years of expertise, Sujit blends modern trends with classic techniques. From hair spa to professional hair treatments at the best unisex salon in Konnagar, Hooghly, experience personalized styling tailored just for you.
             </p>
           </div>
         </div>

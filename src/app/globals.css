@@ -182,10 +182,7 @@ body {
 }
 
 /* Elfsight Widget Overrides */
-[class*="elfsight-app"] [class*="eapps-link"],
-[class*="elfsight-app"] [class*="Badge__Container"],
-[class*="elfsight-app"] [class*="WidgetToolbar__Container"],
-[class*="elfsight-app"] a[href*="elfsight.com"] {
+[class*="elfsight-app"] [class*="WidgetToolbar__Container"] {
   display: none !important;
   opacity: 0 !important;
   pointer-events: none !important;

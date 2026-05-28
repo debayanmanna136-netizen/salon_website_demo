@@ -1,18 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Work_Sans } from "next/font/google";
 import "./globals.css";
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-});
-
-const workSans = Work_Sans({
-  subsets: ["latin"],
-  variable: "--font-work-sans",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "The Shine Hair & Beauty | Best Salon in Konnagar",
@@ -124,6 +111,10 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link crossOrigin="anonymous" href="https://fonts.gstatic.com" rel="preconnect" />
         <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
+        <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
@@ -132,7 +123,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${playfair.variable} ${workSans.variable} min-h-full flex flex-col bg-transparent text-on-surface font-body-md selection:bg-secondary selection:text-on-secondary`}>
+      <body className="min-h-full flex flex-col bg-transparent text-on-surface font-body-md selection:bg-secondary selection:text-on-secondary">
         {children}
       </body>
     </html>

@@ -48,22 +48,7 @@ export default function Home() {
   const [bookService, setBookService] = useState("");
   const [bookDate, setBookDate] = useState("");
 
-  const [reviewName, setReviewName] = useState("");
-  const [reviewText, setReviewText] = useState("");
-  const [reviewRating, setReviewRating] = useState("5");
 
-  const [showReviewModal, setShowReviewModal] = useState(false);
-  const [lastSubmittedReview, setLastSubmittedReview] = useState<{ quote: string, rating: string } | null>(null);
-
-  const handleReviewSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!reviewName || !reviewText) return;
-    setLastSubmittedReview({ quote: reviewText, rating: reviewRating });
-    setShowReviewModal(true);
-    setReviewName("");
-    setReviewText("");
-    setReviewRating("5");
-  };
 
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -477,46 +462,20 @@ export default function Home() {
             </div>
 
             <motion.div variants={slideUpVariants} className="border-t border-primary pt-stack-md pb-stack-md mb-stack-md">
-              <h3 className="font-headline-md text-headline-md text-primary uppercase mb-4 break-words">Write a Review</h3>
-              <form onSubmit={handleReviewSubmit} className="space-y-4">
-                <input 
-                  type="text" 
-                  placeholder="Your Name" 
-                  value={reviewName}
-                  onChange={(e) => setReviewName(e.target.value)}
-                  className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary placeholder-surface-tint transition-colors" 
-                  required
-                />
-                <textarea 
-                  placeholder="Your Review" 
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                  className="w-full bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary placeholder-surface-tint transition-colors resize-none" 
-                  rows={3}
-                  required
-                ></textarea>
-                <div className="flex justify-between items-center">
-                  <select 
-                    value={reviewRating} 
-                    onChange={(e) => setReviewRating(e.target.value)}
-                    className="bg-transparent border-b border-primary focus:border-secondary focus:ring-0 focus:outline-none px-0 py-2 font-body-md text-primary transition-colors"
-                  >
-                    <option value="5">5 Stars</option>
-                    <option value="4">4 Stars</option>
-                    <option value="3">3 Stars</option>
-                    <option value="2">2 Stars</option>
-                    <option value="1">1 Star</option>
-                  </select>
-                  <motion.button 
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    type="submit" 
-                    className="bg-secondary/10 text-secondary border border-secondary font-label-caps text-label-caps px-6 py-2 hover:bg-secondary hover:text-surface transition-colors duration-300 uppercase tracking-widest break-words"
-                  >
-                    Submit
-                  </motion.button>
-                </div>
-              </form>
+              <h3 className="font-headline-md text-headline-md text-primary uppercase mb-4 break-words">Post a Review on Google</h3>
+              <p className="font-body-md text-on-surface-variant mb-6 leading-relaxed break-words">
+                Loved your experience at The Shine Hair & Beauty? Share your thoughts by leaving us a review on Google. Your feedback helps us continue providing top-tier service!
+              </p>
+              <motion.a 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                href="https://search.google.com/local/writereview?placeid=ChIJYR1tSACd-DkR8j1ITbiK8K8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-primary text-on-primary font-label-caps text-label-caps px-8 py-3.5 hover:bg-secondary transition-colors duration-300 uppercase tracking-widest break-words cursor-pointer"
+              >
+                Post on Google
+              </motion.a>
             </motion.div>
 
             <motion.div variants={slideUpVariants} className="border-t border-primary pt-stack-md">
@@ -686,63 +645,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Google Review Funnel Modal */}
-      <AnimatePresence>
-        {showReviewModal && lastSubmittedReview && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md px-4"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="bg-surface-container-high border border-primary p-8 max-w-lg w-full relative overflow-hidden shadow-2xl"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-surface-container-highest to-surface-container opacity-50 pointer-events-none"></div>
-              <div className="relative z-10 flex flex-col items-center text-center">
-                <span className="material-symbols-outlined text-secondary text-5xl mb-4">favorite</span>
-                <h2 className="font-headline-md text-2xl text-primary uppercase mb-2">Thank You For Your Feedback ❤️</h2>
-                <p className="font-body-md text-on-surface-variant mb-6">
-                  We’re so happy you enjoyed your experience at The Shine Hair & Beauty. Would you also like to support us with a Google Review?
-                </p>
-                
-                {/* Styled Preview Card */}
-                <div className="bg-surface-container-lowest/80 border border-primary/30 p-4 w-full mb-6 relative">
-                  <div className="flex justify-center gap-1 mb-2 text-secondary text-xl">
-                    {Array.from({ length: 5 }).map((_, idx) => (
-                      <span key={idx}>{idx < parseInt(lastSubmittedReview.rating) ? '★' : '☆'}</span>
-                    ))}
-                  </div>
-                  <p className="font-body-md text-on-surface italic break-words">&ldquo;{lastSubmittedReview.quote}&rdquo;</p>
-                  <p className="text-xs text-primary/70 mt-3 font-label-caps uppercase">Your review is ready to post.</p>
-                </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 w-full">
-                  <a
-                    href="https://search.google.com/local/writereview?placeid=ChIJYR1tSACd-DkR8j1ITbiK8K8"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setShowReviewModal(false)}
-                    className="flex-1 bg-primary text-on-primary font-label-caps text-label-caps py-3 px-4 hover:bg-secondary transition-colors duration-300 uppercase tracking-widest"
-                  >
-                    Post on Google
-                  </a>
-                  <button
-                    onClick={() => setShowReviewModal(false)}
-                    className="flex-1 bg-transparent border border-primary text-primary font-label-caps text-label-caps py-3 px-4 hover:bg-primary/10 transition-colors duration-300 uppercase tracking-widest"
-                  >
-                    Maybe Later
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </main>
   );
 }

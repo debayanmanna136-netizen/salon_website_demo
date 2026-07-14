@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "The Shine Hair & Beauty | Best Salon in Konnagar",
-  description: "Premium unisex salon in Konnagar offering haircuts, hair spa, smoothening, beard styling, facials, waxing, beauty treatments, and global hair coloring. Book appointments instantly via WhatsApp.",
+  title: "Website Temporarily Unavailable | The Shine Hair & Beauty",
+  description: "This website is temporarily unavailable. Please contact the website owner for any queries.",
   keywords: [
     "The Shine Hair & Beauty",
     "salon in Konnagar",
